@@ -1,4 +1,11 @@
-import { Pressable, StatusBar, StyleSheet, Text, View } from "react-native";
+import {
+  Alert,
+  Pressable,
+  StatusBar,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import React, { useRef, useState } from "react";
 import ScreenWrapper from "../components/ScreenWrapper";
 import Icon from "../assets/icons";
@@ -8,17 +15,21 @@ import { theme } from "../constants/theme";
 import { hp, wp } from "../helpers/common";
 import Input from "../components/Input";
 import Button from "../components/Button";
+
 const Login = () => {
   const router = useRouter();
   const emailRef = useRef("");
   const passwordRef = useRef("");
   const [loading, setLoading] = useState(false);
+
   const onSubmit = async () => {
     if (!emailRef.current || !passwordRef.current) {
-      Alert.alert("Login", "please fill all fields!");
+      Alert.alert("Login", "Please fill all fields!");
       return;
     }
+    // Add your login logic here
   };
+
   return (
     <ScreenWrapper bg="white">
       <StatusBar style="dark" />
@@ -49,7 +60,7 @@ const Login = () => {
         </View>
         <View style={styles.footer}>
           <Text style={styles.footerText}>Don't have an account?</Text>
-          <Pressable>
+          <Pressable onPress={() => router.push("signUp")}>
             <Text
               style={[
                 styles.footerText,

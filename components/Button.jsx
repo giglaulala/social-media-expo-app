@@ -13,13 +13,12 @@ const Button = ({
   hasShadow = true,
 }) => {
   const shadowStyle = {
-    ShadowColor: theme.colors.dark,
-    ShadowOffset: { width: 0, height: 10 },
-    ShadowOpacity: 0.2,
-    ShadowRadius: 8,
+    shadowColor: theme.colors.dark,
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.2,
+    shadowRadius: 8,
     elevation: 4,
   };
-
   if (loading) {
     return (
       <View style={[styles.button, buttonStyle, { backgroundColor: "white" }]}>
