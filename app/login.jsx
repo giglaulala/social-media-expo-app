@@ -6,7 +6,7 @@ import {
   Text,
   View,
 } from "react-native";
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import ScreenWrapper from "../components/ScreenWrapper";
 import Icon from "../assets/icons";
 import BackButton from "../components/BackButton";
@@ -15,21 +15,35 @@ import { theme } from "../constants/theme";
 import { hp, wp } from "../helpers/common";
 import Input from "../components/Input";
 import Button from "../components/Button";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Login = () => {
   const router = useRouter();
-  const emailRef = useRef("");
-  const passwordRef = useRef("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
   const onSubmit = async () => {
-    if (!emailRef.current || !passwordRef.current) {
+    if (!email || !password) {
       Alert.alert("Login", "Please fill all fields!");
       return;
     }
-    // Add your login logic here
-  };
+    setLoading(true);
 
+    setTimeout(async () => {
+      try {
+        await AsyncStorage.setItem("user", JSON.stringify({ email }));
+
+        Alert.alert("Success", "Account created successfully!");
+        router.push("/home");
+      } catch (error) {
+        console.error("Error saving data", error);
+        Alert.alert("Error", "Something went wrong!");
+      } finally {
+        setLoading(false);
+      }
+    }, 1500);
+  };
   return (
     <ScreenWrapper bg="white">
       <StatusBar style="dark" />
@@ -47,13 +61,13 @@ const Login = () => {
           <Input
             icon={<Icon name="mail" size={26} strokeWidth={1.6} />}
             placeholder="Enter your email"
-            onChangeText={(value) => (emailRef.current = value)}
+            onChangeText={(value) => setEmail(value)}
           />
           <Input
             icon={<Icon name="lock" size={26} strokeWidth={1.6} />}
             placeholder="Enter your password"
             secureTextEntry
-            onChangeText={(value) => (passwordRef.current = value)}
+            onChangeText={(value) => setPassword(value)}
           />
           <Text style={styles.forgotPassword}>Forgot Password?</Text>
           <Button title={"Login"} loading={loading} onPress={onSubmit} />

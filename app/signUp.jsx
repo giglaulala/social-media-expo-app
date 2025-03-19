@@ -50,8 +50,9 @@ const SignUp = () => {
     <ScreenWrapper bg="white">
       <StatusBar style="dark" />
       <View style={styles.container}>
-        <Text style={styles.welcomeText}>Let's</Text>
-        <Text style={styles.welcomeText}>Get Started</Text>
+        <BackButton router={router} />
+
+        <Text style={styles.welcomeText}>Let's Get Started</Text>
 
         <View style={styles.form}>
           <Text style={{ fontSize: 14, color: "#555" }}>
@@ -84,7 +85,17 @@ const SignUp = () => {
         <View style={styles.footer}>
           <Text style={styles.footerText}>Already have an account?</Text>
           <Pressable onPress={() => router.push("/login")}>
-            <Text style={styles.footerLink}>Login</Text>
+            <Text
+              style={[
+                styles.footerText,
+                {
+                  color: theme.colors.primaryDark,
+                  fontWeight: theme.fonts.semibold,
+                },
+              ]}
+            >
+              Login
+            </Text>
           </Pressable>
         </View>
       </View>
