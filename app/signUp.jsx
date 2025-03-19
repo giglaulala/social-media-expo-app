@@ -15,70 +15,76 @@ import { theme } from "../constants/theme";
 import { hp, wp } from "../helpers/common";
 import Input from "../components/Input";
 import Button from "../components/Button";
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const SignUp = () => {
   const router = useRouter();
-  const emailRef = useRef("");
-  const passwordRef = useRef("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const nameRef = useRef("");
 
   const onSubmit = async () => {
-    if (!emailRef.current || !passwordRef.current) {
+    if (!name || !email || !password) {
       Alert.alert("Sign Up", "Please fill all fields!");
       return;
     }
-    // Add your login logic here
+
+    setLoading(true);
+
+    setTimeout(async () => {
+      try {
+        await AsyncStorage.setItem("user", JSON.stringify({ name, email }));
+
+        Alert.alert("Success", "Account created successfully!");
+        router.push("/home");
+      } catch (error) {
+        console.error("Error saving data", error);
+        Alert.alert("Error", "Something went wrong!");
+      } finally {
+        setLoading(false);
+      }
+    }, 1500);
   };
 
   return (
     <ScreenWrapper bg="white">
       <StatusBar style="dark" />
       <View style={styles.container}>
-        <BackButton router={router} />
-        <View>
-          <Text style={styles.welcomeText}>Let's</Text>
-          <Text style={styles.welcomeText}>Get Started</Text>
-        </View>
+        <Text style={styles.welcomeText}>Let's</Text>
+        <Text style={styles.welcomeText}>Get Started</Text>
 
         <View style={styles.form}>
-          <Text style={{ fontSize: hp(1.5), color: theme.colors.text }}>
+          <Text style={{ fontSize: 14, color: "#555" }}>
             Please fill the details to create an account
           </Text>
-          <Input
-            icon={<Icon name="user" size={26} strokeWidth={1.6} />}
-            placeholder="Enter your username"
-            onChangeText={(value) => (nameRef.current = value)}
-          />
-          <Input
-            icon={<Icon name="mail" size={26} strokeWidth={1.6} />}
-            placeholder="Enter your email"
-            onChangeText={(value) => (emailRef.current = value)}
-          />
 
           <Input
-            icon={<Icon name="lock" size={26} strokeWidth={1.6} />}
+            icon={<Icon name="user" size={26} />}
+            placeholder="Enter your username"
+            value={name}
+            onChangeText={setName}
+          />
+          <Input
+            icon={<Icon name="mail" size={26} />}
+            placeholder="Enter your email"
+            value={email}
+            onChangeText={setEmail}
+          />
+          <Input
+            icon={<Icon name="lock" size={26} />}
             placeholder="Enter your password"
             secureTextEntry
-            onChangeText={(value) => (passwordRef.current = value)}
+            value={password}
+            onChangeText={setPassword}
           />
 
-          <Button title={"Sign up"} loading={loading} onPress={onSubmit} />
+          <Button title="Sign up" loading={loading} onPress={onSubmit} />
         </View>
+
         <View style={styles.footer}>
-          <Text style={styles.footerText}>already have an account?</Text>
-          <Pressable onPress={() => router.push("login")}>
-            <Text
-              style={[
-                styles.footerText,
-                {
-                  color: theme.colors.primaryDark,
-                  fontWeight: theme.fonts.semibold,
-                },
-              ]}
-            >
-              Login
-            </Text>
+          <Text style={styles.footerText}>Already have an account?</Text>
+          <Pressable onPress={() => router.push("/login")}>
+            <Text style={styles.footerLink}>Login</Text>
           </Pressable>
         </View>
       </View>
