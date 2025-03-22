@@ -1,5 +1,5 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
+import React, { useEffect, useState } from "react";
 import ScreenWrapper from "../../components/ScreenWrapper";
 import Button from "../../components/Button";
 import { router, useRouter } from "expo-router";
@@ -10,6 +10,21 @@ import Avatar from "../../components/Avatar";
 
 const Home = () => {
   const router = useRouter();
+  const [posts, setPosts] = useState([]);
+  useEffect(() => {
+    const getPosts = async () => {
+      try {
+        const response = await fetch("https://dummyjson.com/posts");
+        const data = await response.json();
+        setPosts(data.posts);
+        console.log(posts);
+      } catch (error) {
+        console.error("Error fetching posts:", error);
+      }
+    };
+
+    getPosts();
+  }, []);
   return (
     <ScreenWrapper bg={"white"}>
       <View style={styles.container}>
@@ -42,6 +57,13 @@ const Home = () => {
             </Pressable>
           </View>
         </View>
+        <FlatList
+          data={posts}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.listStyle}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item }) => <PostCard item={item} router={router} />}
+        />
       </View>
     </ScreenWrapper>
   );

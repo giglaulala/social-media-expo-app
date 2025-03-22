@@ -6,6 +6,7 @@ import {
   View,
   Image,
   Pressable,
+  Alert,
 } from "react-native";
 import React, { useRef, useState } from "react";
 import ScreenWrapper from "../../components/ScreenWrapper";
@@ -57,7 +58,23 @@ const NewPost = () => {
     return file.uri;
   };
 
-  const onSubmit = async () => {};
+  const onSubmit = async () => {
+    if (!bodyRef.current && !file) {
+      Alert.alert("Post", "please choose an image or add post body");
+    }
+    let data = {
+      file,
+      body: bodyRef.current,
+      userId: 1,
+    };
+
+    setLoading(true);
+    setFile(null);
+    bodyRef.current = "";
+    editorRef.current?.setContentHTML("");
+    router.back();
+    setLoading(false);
+  };
 
   return (
     <ScreenWrapper bg="white">
