@@ -43,8 +43,6 @@ const Home = () => {
           </View>
         </View>
       </View>
-
-      <Button title="Logout" onPress={() => router.back()} />
     </ScreenWrapper>
   );
 };
