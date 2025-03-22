@@ -38,7 +38,7 @@ const RichTextEditor = ({ editorRef, onChange }) => {
           ),
         }}
         style={styles.richBar}
-        flatContainerStyle={styles.listStyle}
+        flatContainerStyle={styles.flatStyle}
         selectedIconTint={theme.colors.primaryDark}
         editor={editorRef}
         disabled={false}
@@ -61,5 +61,26 @@ const styles = StyleSheet.create({
     borderTopRightRadius: theme.fonts.radius.xl,
     borderTopLeftRadius: theme.fonts.radius.xl,
     backgroundColor: theme.colors.gray,
+    marginHorizontal: 5,
+  },
+  rich: {
+    minHeight: 240,
+    flex: 1,
+    borderWidth: 1.5,
+    borderTopWidth: 0,
+    borderBottomLeftRadius: theme.fonts.radius.xl,
+    borderBottomRightRadius: theme.fonts.radius.xl,
+    borderColor: theme.colors.gray,
+    padding: 5,
+    marginHorizontal: 5,
+  },
+  contentStyle: {
+    color: theme.colors.textDark,
+    placeholderColor: "gray",
+    marginHorizontal: 5,
+  },
+  flatStyle: {
+    paddingHorizontal: 8,
+    gap: 3,
   },
 });
