@@ -4,6 +4,8 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Image,
+  Pressable,
 } from "react-native";
 import React, { useRef, useState } from "react";
 import ScreenWrapper from "../../components/ScreenWrapper";
@@ -24,25 +26,8 @@ const NewPost = () => {
   const editorRef = useRef(null);
   const [loading, setLoading] = useState(false);
   const [file, setFile] = useState(file);
-  const onPick = async (isImage) => {
-    // let mediaConfig = {
-    //   mediaType: "photo",
-    //   allowsEditing: true,
-    //   aspect: [4, 3],
-    //   quality: 0.7,
-    // };
-    // if (!isImage) {
-    //   mediaConfig = {
-    //     mediaType: "video",
-    //     allowsEditing: true,
-    //   };
-    // }
-    // let result = await ImagePicker.launchImageLibraryAsync(mediaConfig);
 
-    // if (!result.canceled) {
-    //   setFile(result.assets[0]);
-    // }
-
+  const onPick = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
     if (status !== "granted") {
@@ -67,13 +52,20 @@ const NewPost = () => {
     }
   };
 
+  const getFileUri = (file) => {
+    if (!file) return null;
+    return file.uri;
+  };
+
   const onSubmit = async () => {};
+
   return (
     <ScreenWrapper bg="white">
       <BackButton router={router} />
-      <View style="Create Post">
+      <View style={{ flex: 1 }}>
         <Header title="Create Post" />
-        <ScrollView contentContainerStyle={{ gap: 20 }}>
+
+        <ScrollView contentContainerStyle={{ gap: 20, paddingBottom: 100 }}>
           <View style={styles.header}>
             <Avatar
               uri={require("../../assets/images/defaultUser.png")}
@@ -92,25 +84,38 @@ const NewPost = () => {
             />
           </View>
 
+          {file && (
+            <View style={styles.file}>
+              <Image
+                source={{ uri: getFileUri(file) }}
+                resizeMode="cover"
+                style={{ flex: 1 }}
+              />
+              <Pressable style={styles.closeIcon} onPress={() => setFile(null)}>
+                <Icon name="delete" size={20} color="white" />
+              </Pressable>
+            </View>
+          )}
+
           <View style={styles.media}>
             <Text style={styles.addImageText}>Add to your post</Text>
             <View style={styles.mediaIcons}>
-              <TouchableOpacity onPress={() => onPick(true)}>
+              <TouchableOpacity onPress={onPick}>
                 <Icon name="image" size={30} color={theme.colors.dark} />
               </TouchableOpacity>
-              {/* <TouchableOpacity onPress={() => onPick(false)}>
-                <Icon name="video" size={33} color={theme.colors.dark} />
-              </TouchableOpacity> */}
             </View>
           </View>
         </ScrollView>
-        <Button
-          buttonStyle={{ height: hp(6.2) }}
-          title="Post"
-          loading={loading}
-          hasShadow={false}
-          onPress={onSubmit}
-        />
+
+        <View style={styles.buttonContainer}>
+          <Button
+            buttonStyle={{ height: hp(6.2) }}
+            title="Post"
+            loading={loading}
+            hasShadow={false}
+            onPress={onSubmit}
+          />
+        </View>
       </View>
     </ScreenWrapper>
   );
@@ -191,5 +196,17 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 10,
     right: 10,
+    padding: 5,
+    borderRadius: 50,
+    backgroundColor: "rgba(255,0,0,0.6)",
+  },
+
+  buttonContainer: {
+    position: "absolute",
+    bottom: 10,
+    left: 0,
+    right: 0,
+    paddingHorizontal: wp(4),
+    zIndex: 10,
   },
 });
