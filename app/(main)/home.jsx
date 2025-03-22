@@ -7,6 +7,7 @@ import { hp, wp } from "../../helpers/common";
 import { theme } from "../../constants/theme";
 import Icon from "../../assets/icons";
 import Avatar from "../../components/Avatar";
+import PostCard from "../../components/PostCard";
 
 const Home = () => {
   const router = useRouter();

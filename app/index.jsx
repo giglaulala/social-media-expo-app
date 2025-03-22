@@ -7,7 +7,7 @@ const index = () => {
   return (
     <ScreenWrapper>
       <Text>index</Text>
-      <Button title="Welcome" onPress={() => router.push("welcome")} />
+      <Button title="Welcome" onPress={() => router.push("home")} />
     </ScreenWrapper>
   );
 };
