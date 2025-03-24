@@ -25,7 +25,7 @@ const Welcome = () => {
           source={require("../assets/images/welcome.png")}
         />
         <View style={{ gap: 20 }}>
-          <Text style={styles.title}>LinkUp!</Text>
+          <Text style={styles.title}>Social Link!</Text>
           <Text style={styles.punchline}>
             Where every though finds a home and every image tells a story!
           </Text>

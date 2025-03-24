@@ -30,7 +30,7 @@ const Home = () => {
     <ScreenWrapper bg={"white"}>
       <View style={styles.container}>
         <View style={styles.header}>
-          <Text style={styles.title}>LinkUp</Text>
+          <Text style={styles.title}>Social Link</Text>
           <View style={styles.icons}>
             <Pressable onPress={() => router.push("notifications")}>
               <Icon
