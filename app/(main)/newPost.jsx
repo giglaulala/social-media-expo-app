@@ -90,8 +90,8 @@ const NewPost = () => {
               rounded={theme.fonts.radius.xl}
             />
             <View style={{ gap: 2 }}>
-              <Text style={styles.username}>Drake</Text>
-              <Text style={styles.publicText}>Certified loverboy</Text>
+              <Text style={styles.username}>Username goes here</Text>
+              <Text style={styles.publicText}>Public text goes here</Text>
             </View>
           </View>
           <View style={styles.textEditor}>
